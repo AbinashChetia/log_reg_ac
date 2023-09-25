@@ -29,13 +29,15 @@ def get_performance_measure(y, pred):
         elif y[i] == 1 and pred[i] == 0:
             fn += 1
     precision = tp / (tp + fp)
-    recall = tp / (tp + fn) 
+    recall = tp / (tp + fn)
+    spec = tn / (tn + fp)
     return {'tp': tp,
             'tn': tn,
             'fp': fp,
             'fn': fn,
             'precision': precision,
             'recall': recall,
+            'spec': spec,
             'f1': 2 * precision * recall / (precision + recall)}
 
 def split_kfold(x, y, k=5):
