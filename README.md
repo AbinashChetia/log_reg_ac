@@ -1,2 +1,2 @@
-# Linear Regression from Scratch
+# Logistic Regression from Scratch
 Implementing Logistic Regression from scratch using basic NumPy and Pandas functions.
