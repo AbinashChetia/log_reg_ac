@@ -17,6 +17,27 @@ def splitTrainTest(x, y, train_ratio=0.8):
     test_y = df.iloc[train_size:, -1].reset_index(drop=True)
     return train_x, train_y, test_x, test_y
 
+def get_performance_measure(y, pred):
+    tp, tn, fp, fn = 0, 0, 0, 0
+    for i in range(len(y)):
+        if y[i] == 1 and pred[i] == 1:
+            tp += 1
+        elif y[i] == 0 and pred[i] == 0:
+            tn += 1
+        elif y[i] == 0 and pred[i] == 1:
+            fp += 1
+        elif y[i] == 1 and pred[i] == 0:
+            fn += 1
+    precision = tp / (tp + fp)
+    recall = tp / (tp + fn) 
+    return {'tp': tp,
+            'tn': tn,
+            'fp': fp,
+            'fn': fn,
+            'precision': precision,
+            'recall': recall,
+            'f1': 2 * precision * recall / (precision + recall)}
+
 def split_kfold(x, y, k=5):
     '''
     Split data into training and testing sets for k-fold cross validation.
