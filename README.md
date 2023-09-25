@@ -1,5 +1,5 @@
 # Logistic Regression from Scratch
-Implementing Logistic Regression from scratch using basic NumPy and Pandas functions.
+Implementing Logistic Regression for binary classification from scratch using basic NumPy and Pandas functions.
 
 ## Plots
 ![Training costs for Gradient Descent with Holdout](/plots/data_dist.png)
