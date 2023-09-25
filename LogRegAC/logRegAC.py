@@ -69,8 +69,10 @@ class LogReg:
         cost = -(cost1 + cost0)
         return cost.item()
 
-    def predict(self, X):
+    def predict(self, X, prob=False):
         z = np.dot(self.init_w_x(X)[1], self.w)
+        if prob:
+            return self.sigmoid(z)
         pred = []
         for i in self.sigmoid(z):
             if i > 0.5:
