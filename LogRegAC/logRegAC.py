@@ -1,17 +1,17 @@
 import numpy as np
 
 class LogReg:
-    def __init__(self, lr=0.01, max_iter=1000, eps=1e-5, stochGd=False):
+    def __init__(self, lr=0.01, max_iter=1000, eps=1e-5, stochGD=False):
         self.w = None
         self.cost_hist = []
         self.w_hist = []
         self.lr = lr
         self.max_iter = max_iter
         self.eps = eps
-        self.stochGd = stochGd
+        self.stochGD = stochGD
     
     def fit(self, X, y, iter_step=1):
-        if self.stochGd:
+        if self.stochGD:
             print('Implementing Stochastic Gradient Descent.')
             return self.__stochGrad(X, y, iter_step)
         else:
@@ -50,7 +50,7 @@ class LogReg:
         self.w = w
 
     def __calc_grad(self, X, y, w):
-        if self.stochGd:
+        if self.stochGD:
             return np.dot(X.T, (y - self.sigmoid(np.dot(X, w))).item()).reshape(w.shape)
         return np.dot(X.T, np.reshape(y,(len(y),1)) - self.sigmoid(np.dot(X, w)))
     
@@ -92,3 +92,6 @@ class LogReg:
     
     def get_params(self):
         return self.w
+    
+    def set_params(self, w):
+        self.w = w
