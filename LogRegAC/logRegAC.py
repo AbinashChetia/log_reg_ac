@@ -1,22 +1,57 @@
 import numpy as np
 
 class LogReg:
-    def __init__(self, lr=0.01, max_iter=1000, eps=1e-5, stochGD=False):
+    def __init__(self, lr=0.01, max_iter=1000, eps=1e-5, newton=False, stochGD=False):
         self.w = None
         self.cost_hist = []
         self.w_hist = []
         self.lr = lr
         self.max_iter = max_iter
         self.eps = eps
+        self.newton = newton
         self.stochGD = stochGD
     
-    def fit(self, X, y, iter_step=1):
-        if self.stochGD:
-            print('Implementing Stochastic Gradient Descent.')
-            return self.__stochGrad(X, y, iter_step)
+    def fit(self, X, y, iter_step=1, reg_term=None):
+        if self.newton:
+            print('Implementing Newton\'s Method.')
+            return self.__newton(X, y, iter_step=iter_step, reg_term=reg_term)
         else:
-            print('Implementing Batch Gradient Descent.')
-            return self.__batchGrad(X, y, iter_step)
+            if self.stochGD:
+                print('Implementing Stochastic Gradient Descent.')
+                return self.__stochGrad(X, y, iter_step)
+            else:
+                print('Implementing Batch Gradient Descent.')
+                return self.__batchGrad(X, y, iter_step)
+            
+    def __newton_step(self, X, y, w, reg_term=None):
+        p = np.array(self.sigmoid(X.dot(w[:,0])), ndmin=2).T
+        W = np.diag((p*(1-p))[:,0])
+        hessian = X.T.dot(W).dot(X)
+        grad = X.T.dot(y-p)
+        if reg_term:
+            step = np.dot(np.linalg.inv(hessian + reg_term*np.eye(w.shape[0])), grad)
+        else:
+            step = np.dot(np.linalg.inv(hessian), grad)
+            
+        beta = w + step
+        
+        return beta
+            
+    def __newton(self, X, y, iter_step=1, reg_term=None):
+        n = X.shape[1]
+        w_old, w = np.ones((n,1)), np.zeros((n,1))
+        for i in range(self.max_iter + 1):
+            cost = self.cost(X, y, w_old)
+            self.cost_hist.append(cost)
+            if i % iter_step == 0:
+                print(f'Iteration {i: 5d} | Cost: {cost: 3.3f}')
+            w_old = w
+            w = __newton_step(X, y.to_frame(), w, reg_term)
+            iter_count += 1
+            if self.__check_convergence(w_old, w):
+                print(f'Stopping criteria satisfied at iteration {i + 1}.')
+                break
+        self.w = w
     
     def __batchGrad(self, X, y, iter_step=1):
         w, X = self.init_w_x(X)
