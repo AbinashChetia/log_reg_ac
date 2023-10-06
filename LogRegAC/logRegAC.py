@@ -96,6 +96,8 @@ class LogReg:
     
     def cost(self, X, y, w):
         z = self.sigmoid(np.dot(X, w))
+        z[z == 1] = 1 - 1e-10
+        z[z == 0] = 1e-10
         cost = -np.dot(y.T, np.log(z)) - np.dot((1 - y).T, np.log(1 - z))
         return cost.item()
 
