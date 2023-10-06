@@ -22,20 +22,18 @@ class LogReg:
             else:
                 print('Implementing Batch Gradient Descent.')
                 return self.__batchGrad(X, y, iter_step)
-            
-    def __newton_step(self, X, y, w, reg_term=None):
+
+    def __newt_step(self, X, y, w, reg_term=None):
         p = np.array(self.sigmoid(X.dot(w[:,0])), ndmin=2).T
         W = np.diag((p*(1-p))[:,0])
         hessian = X.T.dot(W).dot(X)
         grad = X.T.dot(y-p)
         if reg_term:
-            step = np.dot(np.linalg.inv(hessian + reg_term*np.eye(w.shape[0])), grad)
+            step = np.dot(np.linalg.inv(hessian + reg_term * np.eye(w.shape[0])), grad)
         else:
             step = np.dot(np.linalg.inv(hessian), grad)
-            
-        beta = w + step
-        
-        return beta
+        w_new = w + step
+        return w_new
             
     def __newton(self, X, y, iter_step=1, reg_term=None):
         n = X.shape[1]
@@ -46,8 +44,7 @@ class LogReg:
             if i % iter_step == 0:
                 print(f'Iteration {i: 5d} | Cost: {cost: 3.3f}')
             w_old = w
-            w = __newton_step(X, y.to_frame(), w, reg_term)
-            iter_count += 1
+            w = self.__newt_step(X, y.to_frame(), w, reg_term)
             if self.__check_convergence(w_old, w):
                 print(f'Stopping criteria satisfied at iteration {i + 1}.')
                 break
@@ -98,14 +95,15 @@ class LogReg:
         return 1 / (1 + np.exp(-z))
     
     def cost(self, X, y, w):
-        z = np.dot(X, w)
-        cost1 = np.dot(y.T, np.log(self.sigmoid(z)))
-        cost0 = np.dot((1 - y).T, np.log(1 - self.sigmoid(z)))
-        cost = -(cost1 + cost0)
+        z = self.sigmoid(np.dot(X, w))
+        cost = -np.dot(y.T, np.log(z)) - np.dot((1 - y).T, np.log(1 - z))
         return cost.item()
 
     def predict(self, X, prob=False):
-        z = np.dot(self.init_w_x(X)[1], self.w)
+        if self.newton == True:
+            z = np.dot(X, self.w)
+        else:
+            z = np.dot(self.init_w_x(X)[1], self.w)
         if prob:
             return self.sigmoid(z)
         pred = []
