@@ -13,3 +13,7 @@ Implementing Logistic Regression for binary classification from scratch using ba
 ![Confusion Matrix for Stochastic Gradient Descent](/plots/sgd_confusion_matrix.png)
 ![Data distribution along with Decision Boundary](/plots/sgd_data_dist_db.png)
 ![ROC Curve for Stochastic Gradient Descent](/plots/sgd_roc.png)
+### Newton's Method
+![Training costs for Newton's Method](/plots/nwt_cost_hist.png)
+![Confusion Matrix for Newton's Method](/plots/nwt_confusion_matrix.png)
+![Data distribution along with Decision Boundary](/plots/nwt_data_dist_db.png)
