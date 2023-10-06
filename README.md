@@ -17,3 +17,4 @@ Implementing Logistic Regression for binary classification from scratch using ba
 ![Training costs for Newton's Method](/plots/nwt_cost_hist.png)
 ![Confusion Matrix for Newton's Method](/plots/nwt_confusion_matrix.png)
 ![Data distribution along with Decision Boundary](/plots/nwt_data_dist_db.png)
+![ROC Curve for Newton's Method](/plots/nwt_roc.png)

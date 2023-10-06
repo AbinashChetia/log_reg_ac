@@ -36,8 +36,9 @@ class LogReg:
         return w_new
             
     def __newton(self, X, y, iter_step=1, reg_term=None):
+        w, X = self.init_w_x(X)
         n = X.shape[1]
-        w_old, w = np.ones((n,1)), np.zeros((n,1))
+        w_old = np.ones((n,1))
         for i in range(self.max_iter + 1):
             cost = self.cost(X, y, w_old)
             self.cost_hist.append(cost)
@@ -102,10 +103,7 @@ class LogReg:
         return cost.item()
 
     def predict(self, X, prob=False):
-        if self.newton == True:
-            z = np.dot(X, self.w)
-        else:
-            z = np.dot(self.init_w_x(X)[1], self.w)
+        z = np.dot(self.init_w_x(X)[1], self.w)
         if prob:
             return self.sigmoid(z)
         pred = []
