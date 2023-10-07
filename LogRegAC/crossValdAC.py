@@ -66,6 +66,7 @@ class CrossVald:
                 montc_train_costs.append(logReg.get_cost_hist())
             train_costs.append(montc_train_costs)
             f1_temp = np.mean(montc_f1)
+            print(f'Average F1-score for lr={l}: {f1_temp}')
             if f1_temp > opt_model['f1']:
                 opt_model['f1'] = f1_temp
                 opt_model['lr'] = l
@@ -105,6 +106,7 @@ class CrossVald:
                 kfold_train_costs.append(logReg.get_cost_hist())
             train_costs.append(kfold_train_costs)
             f1_temp = np.mean(kfold_f1)
+            print(f'Average F1-score for lr={l}: {f1_temp}')
             if f1_temp > opt_model['f1']:
                 opt_model['f1'] = f1_temp
                 opt_model['lr'] = l
