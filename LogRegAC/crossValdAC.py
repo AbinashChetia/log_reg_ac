@@ -47,7 +47,7 @@ class CrossVald:
             raise ValueError('Unknown option!')
         if self.monte_carlo == 0:
             raise ValueError('Number of iterations for Monte Carlo Cross Validation not specified!')
-        print('Implementing Monte Carlo Cross Validation.')
+        print(f'Implementing Monte Carlo Cross Validation with n = {self.monte_carlo}.')
         train_costs = []
         opt_model = {'f1': 1e-10, 'lr': None, 'w': None}
         for l in lr:
@@ -78,7 +78,7 @@ class CrossVald:
             raise ValueError('Unknown option!')
         if self.k_fold == 0:
             raise ValueError('Number of folds for K-Fold Cross Validation not specified!')
-        print('Implementing K-Fold Cross Validation.')
+        print(f'Implementing K-Fold Cross Validation with k = {self.k_fold}.')
         train_costs = []
         opt_model = {'f1': 1e-10, 'lr': None, 'w': None}
         for l in lr:
