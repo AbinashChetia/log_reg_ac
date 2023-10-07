@@ -24,7 +24,7 @@ class CrossVald:
             raise ValueError('Unknown option!')
         print('Implementing Holdout Cross Validation.')
         train_costs = []
-        opt_model = {'f1': 1e8, 'lr': None, 'w': None}
+        opt_model = {'f1': 1e-10, 'lr': None, 'w': None}
         for l in lr:
             train_x, train_y, test_x, test_y = utilsAC.splitTrainTest(X, y, 0.7)
             train_x, train_min, train_max = utilsAC.normMinMax(train_x, mode='train')
@@ -36,7 +36,7 @@ class CrossVald:
             f1_temp = utilsAC.get_performance_measure(test_y, pred)['f1']
             print(f'F1-score: {f1_temp}')
             train_costs.append(logReg.get_cost_hist())
-            if f1_temp < opt_model['f1']:
+            if f1_temp > opt_model['f1']:
                 opt_model['f1'] = f1_temp
                 opt_model['lr'] = l
                 opt_model['w'] = logReg.get_params()
@@ -49,7 +49,7 @@ class CrossVald:
             raise ValueError('Number of iterations for Monte Carlo Cross Validation not specified!')
         print('Implementing Monte Carlo Cross Validation.')
         train_costs = []
-        opt_model = {'f1': 1e8, 'lr': None, 'w': None}
+        opt_model = {'f1': 1e-10, 'lr': None, 'w': None}
         for l in lr:
             montc_train_costs = []
             montc_f1 = []
@@ -66,7 +66,7 @@ class CrossVald:
                 montc_train_costs.append(logReg.get_cost_hist())
             train_costs.append(montc_train_costs)
             f1_temp = np.mean(montc_f1)
-            if f1_temp < opt_model['f1']:
+            if f1_temp > opt_model['f1']:
                 opt_model['f1'] = f1_temp
                 opt_model['lr'] = l
                 opt_model['w'] = logReg.get_params()
@@ -79,7 +79,7 @@ class CrossVald:
             raise ValueError('Number of folds for K-Fold Cross Validation not specified!')
         print('Implementing K-Fold Cross Validation.')
         train_costs = []
-        opt_model = {'f1': 1e8, 'lr': None, 'w': None}
+        opt_model = {'f1': 1e-10, 'lr': None, 'w': None}
         for l in lr:
             kfold_train_costs = []
             kfold_f1 = []
@@ -105,7 +105,7 @@ class CrossVald:
                 kfold_train_costs.append(logReg.get_cost_hist())
             train_costs.append(kfold_train_costs)
             f1_temp = np.mean(kfold_f1)
-            if f1_temp < opt_model['f1']:
+            if f1_temp > opt_model['f1']:
                 opt_model['f1'] = f1_temp
                 opt_model['lr'] = l
                 opt_model['w'] = logReg.get_params()
